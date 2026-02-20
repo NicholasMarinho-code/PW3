@@ -1,0 +1,20 @@
+services:
+  db:
+    image: mariadb:10.11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: aluno123
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+  web:
+    image: nginx
+    ports:
+      - "8090:80"
+    volumes:
+      - ./meufrontend:/usr/share/nginx/html
