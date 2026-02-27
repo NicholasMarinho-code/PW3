@@ -9,14 +9,15 @@ services:
     image: phpmyadmin
     restart: always
     ports:
-      - 8080:80
+      - http://68.211.160.245:80
     environment:
       - PMA_ARBITRARY=1
   web:
     image: nginx
     ports:
-      - "68.211.160.245:80"
+      - "8090:80"
     volumes:
 
       - ./meufrontend:/usr/share/nginx/html
+
 
