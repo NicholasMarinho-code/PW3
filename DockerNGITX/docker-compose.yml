@@ -18,6 +18,12 @@ services:
       - "80:80"
     volumes:
       - ./FrontEnd:/usr/share/nginx/html
+  php-fpm:
+    image: php:8.3-fpm
+    container_name: php8.3-fpm
+    volumes:
+      - ./:/var/www/html
+
 
 
 
