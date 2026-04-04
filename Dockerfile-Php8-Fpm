@@ -1,80 +1,21 @@
 FROM php:8.3-fpm
 
-LABEL maintainer="wagnerdocri@gmail.com"
-
-# 1. Instala pacotes do sistema
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    # Ferramentas gerais
-    curl \
-    unzip \
+# Pacotes essenciais
+RUN apt-get update && apt-get install -y \
     git \
-    gnupg \
-    dirmngr \
-    # Dependencias para extensoes PHP
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
+    unzip \
     libzip-dev \
-    libicu-dev \
-    libxml2-dev \
-    libonig-dev \
-    libcurl4-openssl-dev \
-    libsodium-dev \
-    libmagickwand-dev \
-    libpq-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# 2. Instala e configura extensoes PHP
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
+    && docker-php-ext-install \
     pdo \
     pdo_mysql \
-    mysqli \
-    pdo_pgsql \
-    pgsql \
-    gd \
-    xml \
-    intl \
-    mbstring \
     zip \
-    curl \
-    soap \
-    opcache \
-    sodium \
-    bcmath \
-    exif
+    && apt-get clean
 
-# 3. Instala Imagick
-RUN pecl install imagick && docker-php-ext-enable imagick
-
-# 4. Instala Composer
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# 5. Instala Xdebug
-RUN pecl install xdebug && docker-php-ext-enable xdebug
-
-# 6. Configurações PHP
-COPY 90-xdebug.ini /usr/local/etc/php/conf.d/90-xdebug.ini
-COPY custom-php.ini /usr/local/etc/php/conf.d/custom-php.ini
-
-# 7. Diretório de trabalho
 WORKDIR /var/www/html
 
-# 8. Permissões
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www
-
-# 9. Porta do PHP-FPM
 EXPOSE 9000
 
-# 10. Entrypoint
-COPY docker-entrypoint.sh /usr/local/bin/
-COPY utils.sh /usr/local/bin/
-
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-
-# 11. Comando padrão
 CMD ["php-fpm"]
