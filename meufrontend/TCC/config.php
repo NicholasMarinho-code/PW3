@@ -1,15 +1,25 @@
 <?php
-$host = "aws-0-us-east-1.pooler.supabase.com";
-$port = "6543";
+
+$host = "db.glvdrydonrsmguxvtuoh.supabase.co";
+$port = "5432";
 $dbname = "postgres";
+
 $user = "postgres";
 $password = "SuperMario@202021";
 
 try {
-    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
-    $pdo = new PDO($dsn, $user, $password);
+
+    $pdo = new PDO(
+        "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require",
+        $user,
+        $password
+    );
+
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    echo "CONECTOU";
+
 } catch (PDOException $e) {
-    echo "Erro: " . $e->getMessage();
+
+    die($e->getMessage());
 }
-?>
