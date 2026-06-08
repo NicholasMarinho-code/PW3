@@ -1,10 +1,8 @@
 <?php
-// Resolve forçando IPv4
-$host = gethostbyname("db.glvdrydonrsmguxvtuoh.supabase.co");
-
-$port = "5432";
+$host = "aws-0-us-east-1.pooler.supabase.com";
+$port = "6543";
 $dbname = "postgres";
-$user = "postgres";
+$user = "postgres.glvdrydonrsmguxvtuoh";
 $password = "SuperMario@202021";
 
 try {
