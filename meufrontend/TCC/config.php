@@ -1,9 +1,12 @@
 <?php
-$host = "db.glvdrydonrsmguxvtuoh.supabase.co";
+// Resolve forçando IPv4
+$host = gethostbyname("db.glvdrydonrsmguxvtuoh.supabase.co");
+
 $port = "5432";
 $dbname = "postgres";
 $user = "postgres";
 $password = "SuperMario@202021";
+
 try {
     $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
     $pdo = new PDO($dsn, $user, $password);
