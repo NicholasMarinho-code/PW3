@@ -1,17 +1,4 @@
 services:
-  db:
-    image: mariadb:10.11
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: aluno123
-
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      - PMA_ARBITRARY=1
   web:
     build:
       context: ./
@@ -19,7 +6,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./meufrontend:/usr/share/nginx/html
+      - ./:/var/www/html
+    depends_on:
+      - php-fpm
 
   php-fpm:
     build:
