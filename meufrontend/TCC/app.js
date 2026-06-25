@@ -41,10 +41,29 @@ if (btnLogin) {
         const senha = document.getElementById("senhaLogin").value;
 
         signInWithEmailAndPassword(auth, email, senha)
-            .then((userCredential) => {
-                alert("Logado com sucesso!");
-                location.href = "../view/menu.php";
-            })
+            .then(async (userCredential) => {
+                console.log("Firebase OK");
+                const emailUser = userCredential.user.email;
+                console.log("Email:", emailUser);
+
+                
+                const resposta = await fetch(`/TCC/controller/verifica-permissao.php?email=${emailUser}`);
+                console.log("Status:", resposta.status);
+                
+                const dados = await resposta.json();
+                console.log(dados);
+
+                
+                if (dados.funcao === "Gerente") {
+                    alert("Bem-vindo gerente");
+                    window.location.href = "/TCC/view/menu.php";
+                } else if (dados.funcao === "Funcionario") {
+                    alert("Bem-vindo funcionário");
+                    window.location.href = "/TCC/view/funcionario.php";
+                } else {
+                    alert("Permissão não encontrada");
+                }
+            }) 
             .catch((error) => {
                 alert("Erro ao logar: " + error.message);
             });

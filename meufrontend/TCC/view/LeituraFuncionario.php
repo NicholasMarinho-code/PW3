@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<?php include 'navbar.php' ?>
+<?php include 'navbarFuncionario.php' ?>
 
 <div class="container">
   <header>
